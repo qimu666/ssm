@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qimu.mapper.EmpMapper">
+    <!--     Emp getUserIsExist(String empName, String password);-->
+    <select id="getUserIsExist" resultType="emp">
+        select *
+        from t_emp
+        where emp_name = #{empName}
+          and password = #{password};
+    </select>
+    <!-- Emp getUser(@Param("empName") String empName，@Param("password") String password);-->
+    <select id="getUser" resultType="emp">
+        select *
+        from t_emp
+        <trim prefix="where" suffixOverrides="and">
+            <if test="empId!=null and empId!=''">
+                emp_id =#{empId} and
+            </if>
+            <if test="empName!=null and empName!=''">
+                emp_name like concat('%',#{empName},'%') and
+            </if>
+            <if test="age!=null">
+                age=#{age} and
+            </if>
+            <if test="gender!=null and gender!=''">
+                gender=#{gender} and
+            </if>
+            <if test="email!=null and email!=''">
+                email=#{email} and
+            </if>
+            <if test="password!=null and password!=''">
+                password=#{password}
+            </if>
+        </trim>
+    </select>
+
+    <!--Emp findUserByName(String empName);-->
+    <select id="findUserByName" resultType="emp">
+        select *
+        from t_emp
+        where emp_name = #{empName}
+    </select>
+
+    <!--    Integer saveUser(Emp emp);-->
+    <insert id="saveUser" useGeneratedKeys="true" keyProperty="empId">
+        insert into t_emp(emp_name, age, gender, email, password)
+        values (#{empName}, #{age}, #{gender}, #{email}, #{password})
+    </insert>
+
+    <update id="updateById">
+        update t_emp set emp_name=#{empName}, age=#{age},gender=#{gender},email=#{email},password=#{password}
+        where emp_id=#{empId}
+    </update>
+
+    <delete id="deleteById">
+        delete from t_emp where emp_id in
+        <foreach collection="empId" item="empId" separator="," open="(" close=")">
+            #{empId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--    <properties resource="jdbc.properties"></properties>-->
+    <settings>
+        <!-- 将下划线映射为驼峰 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    <typeAliases>
+        <package name="com.qimu.pojo"/>
+    </typeAliases>
+    <!-- 引入mybatis的映射文件-->
+    <mappers>
+        <mapper resource="mappers/EmpMapper.xml"/>
+        <!--        <package name="mappers"/>-->
+    </mappers>
+</configuration>
