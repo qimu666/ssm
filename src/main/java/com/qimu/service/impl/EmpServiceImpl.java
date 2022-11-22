@@ -22,7 +22,10 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public Integer saveUser(Emp emp) {
-        return empMapper.saveUser(emp);
+        if (check(emp)) {
+            return empMapper.saveUser(emp);
+        }
+        return 0;
     }
 
     @Override
@@ -36,14 +39,31 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public Integer updateById(Emp emp) {
-        return empMapper.updateById(emp);
+        if (check(emp)) {
+            return empMapper.updateById(emp);
+        }
+        return 0;
     }
 
     @Override
     public Integer deleteById(Integer[] ids) {
+        //限制删除要传入的id不为空
         if (ids != null && ids.length != 0) {
             return empMapper.deleteById(ids);
         }
         return 0;
+    }
+
+    /**
+     * 数据校验
+     *
+     * @param emp
+     * @return
+     */
+    public boolean check(Emp emp) {
+        if ("男".equals(emp.getGender()) || "女".equals(emp.getGender())) {
+            return true;
+        }
+        return false;
     }
 }
